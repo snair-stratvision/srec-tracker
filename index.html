@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJ SREC-II Self-Management Guide &amp; Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: #f0f0f0;
+            color: #333;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #667eea;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin: 20px 0 10px 0;
+        }
+        
+        .step-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .critical-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .critical-box strong {
+            color: #ff6b6b;
+            font-size: 1.1em;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border: 2px solid #0dcaf0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .checklist-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .checklist-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .checklist-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .checklist-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .checklist-table input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checklist-table input[type="text"],
+        .checklist-table input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .production-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        .production-table thead {
+            background: #764ba2;
+            color: white;
+        }
+        
+        .production-table th,
+        .production-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .production-table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .production-table input[type="number"] {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .calc-result {
+            background: #d4edda;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #155724;
+        }
+        
+        .url-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            word-break: break-all;
+        }
+        
+        .url-link:hover {
+            text-decoration: underline;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+        
+        ol, ul {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .export-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .tabs, .btn, .export-section {
+                display: none;
+            }
+            .tab-content {
+                display: block !important;
+                box-shadow: none;
+                page-break-after: always;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            .tabs {
+                flex-direction: column;
+            }
+            .tab-btn {
+                width: 100%;
+            }
+            .production-table {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌞 NJ SREC-II Self-Management Guide</h1>
+            <p class="subtitle">Complete Setup Guide &amp; 15-Year Production Tracker</p>
+            <p style="color: #666; font-size: 0.95em;">SuSI ADI Program | $85/MWh Fixed Rate | Self-Reporting (No Aggregator Fees)</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('guide')">📖 Step-by-Step Guide</button>
+            <button class="tab-btn" onclick="switchTab('checklist')">✅ Setup Checklist</button>
+            <button class="tab-btn" onclick="switchTab('tracker')">📊 Production Tracker</button>
+            <button class="tab-btn" onclick="switchTab('reference')">🔗 Quick Reference</button>
+        </div>
+        
+        <div id="guide" class="tab-content active">
+            <h2>📋 Complete SREC-II Self-Management Guide</h2>
+            
+            <div class="critical-box">
+                <strong>⚠️ CRITICAL SUCCESS FACTORS:</strong>
+                <ul>
+                    <li><strong>GATS Account Type:</strong> Select "GENERATOR" (NOT Broker or Aggregator)</li>
+                    <li><strong>Standing Order:</strong> Check the "automatically create standing order" box during registration</li>
+                    <li><strong>Monthly Deadline:</strong> Submit meter readings between 15th-20th of each month</li>
+                </ul>
+            </div>
+            
+            <div class="step-section">
+                <h3>✅ PHASE 1: GATS Account Creation</h3>
+                
+                <p><strong>Step 1:</strong> Navigate to <a href="https://www.pjm-eis.com" class="url-link" target="_blank">https://www.pjm-eis.com</a></p>
+                <ul>
+                    <li>Look for "GATS Sign In" section (top left corner)</li>
+                    <li>Click <strong>"Not a Member? Register Here"</strong></li>
+                </ul>
+                
+                <p><strong>Step 2:</strong> Complete New Account Registration Form</p>
+                <ul>
+                    <li><strong>Account Type:</strong> Select <code>GENERATOR</code> from dropdown (CRITICAL)</li>
+                    <li><strong>Organization Name:</strong> Your name or LLC</li>
+                    <li><strong>Contact Information:</strong> Email, phone, mailing address</li>
+                    <li><strong>Organization Type:</strong> Select "Individual" for residential</li>
+                </ul>
+                
+                <p><strong>Step 3:</strong> Wait for Account Approval</p>
+                <ul>
+                    <li><strong>Timeline:</strong> Typically approved next business day</li>
+                    <li><strong>Confirmation:</strong> Email from <code>[email protected]</code></li>
+                    <li><strong>Action:</strong> Save your GATS username and password securely</li>
+                </ul>
+            </div>
+            
+            <div class="step-section">
+                <h3>✅ PHASE 2: Asset Registration (Solar Generator)</h3>
+                
+                <div class="info-box">
+                    <strong>Understanding the "Standing Order":</strong><br>
+                    The standing order is an automatic instruction that tells GATS: "Every time a certificate is created for my system, immediately transfer it to the Solar Incentives NJ Program account." Without this, your SRECs sit in YOUR account and InClime cannot see them or pay you. The standing order ensures: automatic transfer → automatic invoicing → automatic payment.
+                </div>
+                
+                <p><strong>Step 4:</strong> Log Into Your GATS Account</p>
+                <ul>
+                    <li>URL: <a href="https://www.pjm-eis.com" class="url-link" target="_blank">https://www.pjm-eis.com</a></li>
+                    <li>Click "GATS Sign In" and enter credentials</li>
+                </ul>
+                
+                <p><strong>Step 5:</strong> Navigate to Generator Registration</p>
+                <ul>
+                    <li>Click <strong>"Assets"</strong> tab in top navigation</li>
+                    <li>Select <strong>"Register Solar Photovoltaic Generator"</strong> from dropdown</li>
+                </ul>
+                
+                <p><strong>Step 6:</strong> Complete Generator Registration Form</p>
+                <ul>
+                    <li><strong>Facility Name:</strong> Your address or custom name</li>
+                    <li><strong>State Certification Number:</strong> Enter NJ Certification Number EXACTLY as shown (format: <code>NJ-XXXXXX-SUN-I-XX-SREC-II</code>)</li>
+                    <li><strong>Nameplate Capacity:</strong> System size in kW (from As-Built Worksheet)</li>
+                    <li><strong>Commenced Operation Date:</strong> Date on PTO letter</li>
+                    <li><strong>Generation Entry Type:</strong> Choose <strong>"Meter Reading"</strong> (you'll enter lifetime kWh totals)</li>
+                </ul>
+                
+                <div class="critical-box">
+                    <strong>⚠️ CRITICAL STEP:</strong> Scroll to bottom of registration form and <strong>CHECK THE BOX:</strong> ☑️ "Check this box to automatically create standing order"
+                    <br><br>This checkbox is MANDATORY for automatic payment processing!
+                </div>
+                
+                <p><strong>Step 7:</strong> Submit Generator Application</p>
+                <ul>
+                    <li>Click <strong>"Submit for Approval"</strong></li>
+                    <li><strong>Timeline:</strong> 3-4 business days for approval</li>
+                    <li><strong>You'll Receive:</strong> GATS Unit ID (format: <code>NON-XXXXXXX</code>)</li>
+                </ul>
+                
+                <p><strong>Step 8:</strong> Verify Standing Order Was Created</p>
+                <ul>
+                    <li>Log into GATS → Click <strong>"Certificates"</strong> tab → <strong>"View Standing Orders"</strong></li>
+                    <li><strong>Verify:</strong> Recipient = "Solar Incentives NJ Program", Status = Active, Irrevocable = Yes</li>
+                </ul>
+            </div>
+            
+            <div class="step-section">
+                <h3>✅ PHASE 3: Payment Portal Registration</h3>
+                
+                <p><strong>Step 9:</strong> Create Account on Solar Incentives NJ</p>
+                <ul>
+                    <li>URL: <a href="https://www.solarincentivesnj.com" class="url-link" target="_blank">https://www.solarincentivesnj.com</a></li>
+                    <li>Click <strong>"Create Account"</strong> (NOT "Login" yet)</li>
+                    <li>Enter email and create password</li>
+                    <li>Check email for activation link (including spam folder)</li>
+                </ul>
+                
+                <p><strong>Step 10:</strong> Register Payment Account</p>
+                <ul>
+                    <li>Log in → Click <strong>"Projects"</strong> tab → <strong>"Register a Payment Account"</strong></li>
+                </ul>
+                
+                <p><strong>Step 11:</strong> Complete 5-Step Payment Application</p>
+                <ol>
+                    <li><strong>Step 1 - Property Location:</strong> Solar installation address, utility company</li>
+                    <li><strong>Step 2 - System Owner:</strong> Owner name (must match NJCEP certification)</li>
+                    <li><strong>Step 3 - Bank Account:</strong> Routing number, account number, account type</li>
+                    <li><strong>Step 4 - System Registration:</strong> NJ Cert #, GATS Unit ID, system size, operation date</li>
+                    <li><strong>Step 5 - Document Upload:</strong> Photo of voided check (REQUIRED - must match Step 3 info)</li>
+                </ol>
+                
+                <p><strong>Step 12:</strong> Wait for Payment Account Approval</p>
+                <ul>
+                    <li><strong>Timeline:</strong> 3-5 business days</li>
+                    <li><strong>Status Check:</strong> Log into SolarIncentivesNJ.com → Projects tab</li>
+                    <li><strong>"Approved"</strong> = Ready to receive payments</li>
+                </ul>
+            </div>
+            
+            <div class="step-section">
+                <h3>✅ PHASE 4: Monthly Meter Reading Submission</h3>
+                
+                <div class="info-box">
+                    <strong>How Generation Converts to SREC-IIs:</strong><br>
+                    • 1 SREC-II = 1 MWh (1,000 kWh) of production<br>
+                    • Your inverter tracks <strong>lifetime production</strong> (cumulative kWh)<br>
+                    • You report this lifetime number monthly<br>
+                    • GATS calculates monthly production automatically<br>
+                    • When cumulative production crosses 1,000 kWh threshold, GATS mints 1 SREC-II
+                </div>
+                
+                <p><strong>Optimal Submission Window: 15th-20th of Each Month</strong></p>
+                <ul>
+                    <li>Readings submitted by 20th → Certificate mints on last day of month → Included in next month's invoicing</li>
+                    <li>Example: Feb 15-20 reading → Certificate mints Feb 28 → Utility invoiced in March → Payment in April</li>
+                </ul>
+                
+                <p><strong>Step 13:</strong> Locate Your Lifetime Production Reading</p>
+                <ul>
+                    <li><strong>Enphase:</strong> Open app → Lifetime energy production (kWh)</li>
+                    <li><strong>SolarEdge:</strong> Open monitoring portal → Total energy produced (kWh)</li>
+                    <li>Record the <strong>LIFETIME CUMULATIVE</strong> number (not monthly)</li>
+                </ul>
+                
+                <p><strong>Step 14:</strong> Enter Reading into GATS</p>
+                <ul>
+                    <li>Log into <a href="https://www.pjm-eis.com" class="url-link" target="_blank">https://www.pjm-eis.com</a></li>
+                    <li>Click <strong>"Assets"</strong> → Hover <strong>"Generation"</strong> → <strong>"Enter/View Generation"</strong></li>
+                    <li>Select your generator</li>
+                    <li>Navigate to current month using arrows</li>
+                    <li>In <strong>"Read"</strong> row: Enter lifetime production (e.g., 12450)</li>
+                    <li>In <strong>"Date"</strong> box: Select reading date (must be 1st-15th)</li>
+                    <li>Click <strong>"SAVE"</strong> → Click <strong>"OK"</strong></li>
+                </ul>
+                
+                <p><strong>Step 15:</strong> Certificate Minting (Automatic)</p>
+                <ul>
+                    <li><strong>When:</strong> Last day of each month</li>
+                    <li><strong>Condition:</strong> Cumulative production reached next 1,000 kWh threshold</li>
+                    <li><strong>Transfer:</strong> Auto-transfers to "Solar Incentives NJ Program" (via standing order)</li>
+                    <li><strong>You don't need to do anything—this is automatic!</strong></li>
+                </ul>
+            </div>
+            
+            <div class="step-section">
+                <h3>✅ PHASE 5: Payment Processing</h3>
+                
+                <p><strong>Quarterly Payment Schedule:</strong></p>
+                <ul>
+                    <li><strong>Q1 (Jan-Mar production):</strong> Paid in April</li>
+                    <li><strong>Q2 (Apr-Jun production):</strong> Paid in July</li>
+                    <li><strong>Q3 (Jul-Sep production):</strong> Paid in October</li>
+                    <li><strong>Q4 (Oct-Dec production):</strong> Paid in January of following year</li>
+                </ul>
+                
+                <p><strong>Payment Amount:</strong> Number of MWh produced × $85</p>
+                <ul>
+                    <li>Example: 3 MWh in Q1 = 3 × $85 = $255 paid in April</li>
+                </ul>
+                
+                <p><strong>Monitor Payment Status:</strong></p>
+                <ul>
+                    <li>Log into <a href="https://www.solarincentivesnj.com" class="url-link" target="_blank">https://www.solarincentivesnj.com</a> → Projects tab</li>
+                    <li>Payments deposited to bank account registered in Phase 3</li>
+                </ul>
+            </div>
+            
+            <h2>🔧 Troubleshooting Common Issues</h2>
+            
+            <table class="checklist-table">
+                <thead>
+                    <tr>
+                        <th>Issue</th>
+                        <th>Solution</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Standing Order Not Creating</td>
+                        <td>Manually create: GATS → Certificates → Create Standing Orders → Search "Incentives" → Select "Solar Incentives NJ Program" → Check "Irrevocable"</td>
+                        <td>[email protected]</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Account Shows "Need Info"</td>
+                        <td>Log into SolarIncentivesNJ.com → Projects tab → Check "Information Needed" column for missing items</td>
+                        <td>[email protected]</td>
+                    </tr>
+                    <tr>
+                        <td>Certificate Not Minting</td>
+                        <td>Check: Reading submitted after 20th? Haven't reached 1,000 kWh threshold yet? Verify in GATS → Assets → Generation</td>
+                        <td>[email protected]</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Not Received</td>
+                        <td>Verify: 1) Standing order active 2) Payment account approved 3) Certificates minted and transferred</td>
+                        <td>[email protected]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="checklist" class="tab-content">
+            <h2>✅ Interactive Setup Checklist</h2>
+            
+            <p style="color: #666; margin-bottom: 20px;">Check off each task as you complete it. Your progress is automatically saved in your browser.</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar">0% Complete</div>
+            </div>
+            
+            <table class="checklist-table" id="checklistTable">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">✓</th>
+                        <th>Phase</th>
+                        <th>Task</th>
+                        <th style="width: 150px;">Date Completed</th>
+                        <th style="width: 250px;">Notes/Confirmation #</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td>1. Prerequisites</td>
+                        <td>NJCEP Certification Letter Received</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="NJ Cert #"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>As-Built Worksheet from Installer</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>PTO (Permission to Operate) Letter</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>System Online Date Recorded</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td>2. GATS Account</td>
+                        <td>Visited https://www.pjm-eis.com</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Clicked 'Not a Member? Register Here'</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td><strong>Selected Account Type: GENERATOR</strong></td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="Critical step!"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Completed Account Registration Form</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Received GATS Account Approval Email</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="Username"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td>3. Generator Registration</td>
+                        <td>Logged into PJM GATS Account</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Navigated to Assets &gt; Register Solar PV Generator</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Entered NJ Certification Number</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="From NJCEP Letter"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Entered System Details (kW size, panels, location)</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td><strong>CHECKED BOX: Automatically create standing order</strong></td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="CRITICAL!"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Submitted Generator Application</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Received Generator Approval Email (3-4 days)</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="GATS Unit ID: NON-"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td>4. Standing Order</td>
+                        <td>Logged into GATS &gt; Certificates &gt; View Standing Orders</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Verified Standing Order to 'Solar Incentives NJ Program'</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="Must show: Irrevocable"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>If missing: Created Manual Standing Order</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td>5. Payment Portal</td>
+                        <td>Visited https://www.solarincentivesnj.com</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Clicked 'Create Account'</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Created Account with Email/Password</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Clicked Activation Link in Email</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Logged In &gt; Projects Tab &gt; Register Payment Account</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Step 1: Entered Property Location Info</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Step 2: Entered System Owner Info</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Step 3: Entered Bank Account for Direct Deposit</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="Routing & Account #"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Step 4: Entered NJ Cert # and GATS Unit ID</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Step 5: Uploaded Voided Check Photo</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="Must match Step 3"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Submitted Payment Account Application</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Received Payment Account Approval Email</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="3-5 business days"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td>6. First Production</td>
+                        <td>Read Inverter Lifetime Production (kWh)</td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="First Reading kWh"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Logged into GATS &gt; Assets &gt; Generation &gt; Enter/View</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Entered First Meter Reading (15th-20th of month)</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td></td>
+                        <td>Verified Reading Saved Successfully</td>
+                        <td><input type="date"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" onchange="updateProgress()"></td>
+                        <td>7. System Ready</td>
+                        <td><strong>All Setup Complete - Monthly Reporting Active</strong></td>
+                        <td><input type="date"></td>
+                        <td><input type="text" placeholder="Ready for payments!"></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="export-section">
+                <button class="btn" onclick="saveChecklistProgress()">💾 Save Progress</button>
+                <button class="btn btn-secondary" onclick="loadChecklistProgress()">📂 Load Saved Progress</button>
+                <button class="btn btn-secondary" onclick="resetChecklist()">🔄 Reset Checklist</button>
+            </div>
+        </div>
+        
+        <div id="tracker" class="tab-content">
+            <h2>📊 15-Year Production &amp; Payment Tracker</h2>
+            
+            <div class="info-box">
+                <strong>📅 Monthly Reporting Reminder:</strong> Enter your meter readings between the 15th-20th of each month for optimal payment processing. Record your inverter's <strong>lifetime production (cumulative kWh)</strong>, not monthly production.
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <label><strong>Select Year:</strong> 
+                    <select id="yearSelect" onchange="changeYear()" style="padding: 8px; font-size: 1em; border-radius: 4px; margin-left: 10px;">
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        <option value="2031">2031</option>
+                        <option value="2032">2032</option>
+                        <option value="2033">2033</option>
+                        <option value="2034">2034</option>
+                        <option value="2035">2035</option>
+                        <option value="2036">2036</option>
+                        <option value="2037">2037</option>
+                        <option value="2038">2038</option>
+                        <option value="2039">2039</option>
+                        <option value="2040">2040</option>
+                    </select>
+                </label>
+            </div>
+            
+            <table class="production-table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Lifetime Reading (kWh)</th>
+                        <th>Monthly Production</th>
+                        <th>Cumulative Since Last SREC</th>
+                        <th>MWh Minted</th>
+                        <th>GATS Submission Date</th>
+                        <th>Certificate Serial #</th>
+                        <th>Payment Status</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="productionTableBody">
+                    <!-- Table rows generated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h3>Annual Summary for <span id="summaryYear">2026</span></h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Total Production:</strong></td>
+                        <td style="padding: 10px; border-bottom: 1px solid #ddd;" id="annualProduction">0 kWh</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Total MWh Minted:</strong></td>
+                        <td style="padding: 10px; border-bottom: 1px solid #ddd;" id="annualMWh">0 MWh</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Total Payments:</strong></td>
+                        <td style="padding: 10px; border-bottom: 1px solid #ddd; color: #28a745; font-size: 1.2em; font-weight: 600;" id="annualPayment">$0.00</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="critical-box">
+                <strong>Understanding Carryover Math:</strong>
+                <ul>
+                    <li><strong>1 SREC-II = 1,000 kWh (1 MWh)</strong> - Certificates only mint in whole units</li>
+                    <li><strong>Example Month 1:</strong> Produce 800 kWh → 0 MWh minted → 800 kWh carries over</li>
+                    <li><strong>Example Month 2:</strong> Produce 750 kWh → Cumulative: 800 + 750 = 1,550 kWh → 1 MWh minted ($85 earned) → 550 kWh carries over</li>
+                    <li><strong>Example Month 3:</strong> Produce 850 kWh → Cumulative: 550 + 850 = 1,400 kWh → 1 MWh minted ($85 earned) → 400 kWh carries over</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>The tracker automatically calculates this for you!</strong> Just enter your lifetime readings each month.</p>
+            </div>
+            
+            <h3>💰 Quarterly Payment Schedule</h3>
+            <table class="checklist-table" style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>Quarter</th>
+                        <th>Production Months</th>
+                        <th>Payment Month</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Q1</td>
+                        <td>January - March</td>
+                        <td>April</td>
+                        <td>Paid for Jan-Mar production</td>
+                    </tr>
+                    <tr>
+                        <td>Q2</td>
+                        <td>April - June</td>
+                        <td>July</td>
+                        <td>Paid for Apr-Jun production</td>
+                    </tr>
+                    <tr>
+                        <td>Q3</td>
+                        <td>July - September</td>
+                        <td>October</td>
+                        <td>Paid for Jul-Sep production</td>
+                    </tr>
+                    <tr>
+                        <td>Q4</td>
+                        <td>October - December</td>
+                        <td>January (next year)</td>
+                        <td>Paid for Oct-Dec production</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="export-section">
+                <button class="btn" onclick="saveTrackerData()">💾 Save Tracker Data</button>
+                <button class="btn btn-secondary" onclick="loadTrackerData()">📂 Load Saved Data</button>
+                <button class="btn btn-secondary" onclick="exportToCSV()">📥 Export to CSV</button>
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ Print</button>
+            </div>
+        </div>
+        
+        <div id="reference" class="tab-content">
+            <h2>🔗 Quick Reference Guide</h2>
+            
+            <div class="step-section">
+                <h3>🌐 Important URLs</h3>
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th>Resource</th>
+                            <th>URL</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PJM-EIS GATS Portal</td>
+                            <td><a href="https://www.pjm-eis.com" class="url-link" target="_blank">https://www.pjm-eis.com</a></td>
+                            <td>Main GATS login, enter meter readings, view certificates</td>
+                        </tr>
+                        <tr>
+                            <td>Solar Incentives NJ Portal</td>
+                            <td><a href="https://www.solarincentivesnj.com" class="url-link" target="_blank">https://www.solarincentivesnj.com</a></td>
+                            <td>Payment account registration, view payment status</td>
+                        </tr>
+                        <tr>
+                            <td>GATS Admin Support</td>
+                            <td><a href="mailto:[email protected]" class="url-link">[email protected]</a></td>
+                            <td>Technical questions about GATS</td>
+                        </tr>
+                        <tr>
+                            <td>GATS Phone Support</td>
+                            <td><a href="tel:877-750-4287" class="url-link">877-750-4287</a></td>
+                            <td>Live help with GATS issues</td>
+                        </tr>
+                        <tr>
+                            <td>InClime Payment Support</td>
+                            <td><a href="mailto:[email protected]" class="url-link">[email protected]</a></td>
+                            <td>Payment account questions</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="step-section">
+                <h3>📅 Critical Deadlines</h3>
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Timing</th>
+                            <th>Consequences</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Monthly Meter Reading Entry</strong></td>
+                            <td>Between 15th-20th of each month</td>
+                            <td>Delay in certificate minting and payment (no SRECs lost)</td>
+                        </tr>
+                        <tr>
+                            <td>Certificate Minting</td>
+                            <td>Automatic on last day of month</td>
+                            <td>If reading submitted on time</td>
+                        </tr>
+                        <tr>
+                            <td>Quarterly Payment Processing</td>
+                            <td>April, July, October, January</td>
+                            <td>No action required if setup correct</td>
+                        </tr>
+                        <tr>
+                            <td>Annual Account Review</td>
+                            <td>Annually</td>
+                            <td>Verify standing order still active</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="step-section">
+                <h3>🧮 Formula Quick Reference</h3>
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th>Calculation</th>
+                            <th>Formula</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monthly Production</td>
+                            <td>Current Lifetime - Previous Lifetime</td>
+                            <td>1,550 kWh - 800 kWh = 750 kWh</td>
+                        </tr>
+                        <tr>
+                            <td>Cumulative for SREC</td>
+                            <td>Previous Carryover + Current Month</td>
+                            <td>800 kWh + 750 kWh = 1,550 kWh</td>
+                        </tr>
+                        <tr>
+                            <td>MWh Minted</td>
+                            <td>Cumulative ÷ 1,000 (round down)</td>
+                            <td>1,550 ÷ 1,000 = 1 MWh</td>
+                        </tr>
+                        <tr>
+                            <td>New Carryover</td>
+                            <td>Cumulative - (MWh × 1,000)</td>
+                            <td>1,550 - (1 × 1,000) = 550 kWh</td>
+                        </tr>
+                        <tr>
+                            <td>Payment Earned</td>
+                            <td>MWh Minted × $85</td>
+                            <td>1 MWh × $85 = $85.00</td>
+                        </tr>
+                        <tr>
+                            <td>15-Year Total (estimate)</td>
+                            <td>Annual MWh × 15 years × $85</td>
+                            <td>10 MWh/year × 15 × $85 = $12,750</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="step-section">
+                <h3>📝 My System Information</h3>
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Your Value</th>
+                            <th>Where to Find</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>NJ Certification Number</td>
+                            <td><input type="text" id="njCert" placeholder="NJ-XXXXXX-SUN-I-XX-SREC-II"></td>
+                            <td>NJCEP Approval Letter</td>
+                        </tr>
+                        <tr>
+                            <td>GATS Unit ID</td>
+                            <td><input type="text" id="gatsUnit" placeholder="NON-XXXXXXX"></td>
+                            <td>GATS Generator Approval Email</td>
+                        </tr>
+                        <tr>
+                            <td>System Size (kW DC)</td>
+                            <td><input type="text" id="systemSize" placeholder="e.g., 8.5"></td>
+                            <td>As-Built Worksheet</td>
+                        </tr>
+                        <tr>
+                            <td>System Online Date</td>
+                            <td><input type="date" id="onlineDate"></td>
+                            <td>PTO Letter</td>
+                        </tr>
+                        <tr>
+                            <td>Fixed SREC-II Rate</td>
+                            <td>$85.00 per MWh</td>
+                            <td>Locked at registration date</td>
+                        </tr>
+                        <tr>
+                            <td>Program Duration</td>
+                            <td>15 years from registration</td>
+                            <td>Through year: <span id="endYear">____</span></td>
+                        </tr>
+                        <tr>
+                            <td>Inverter Brand/Model</td>
+                            <td><input type="text" id="inverterModel" placeholder="e.g., Enphase IQ8+"></td>
+                            <td>For meter reading location</td>
+                        </tr>
+                        <tr>
+                            <td>Monitoring Platform</td>
+                            <td><input type="text" id="monitorPlatform" placeholder="Enphase, SolarEdge, etc."></td>
+                            <td>Where you check production</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn" onclick="saveSystemInfo()">💾 Save System Info</button>
+                <button class="btn btn-secondary" onclick="loadSystemInfo()">📂 Load Saved Info</button>
+            </div>
+            
+            <div class="step-section">
+                <h3>🔧 Troubleshooting Checklist</h3>
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th>Issue</th>
+                            <th>Solution</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cannot log into GATS</td>
+                            <td>Reset password at pjm-eis.com login page</td>
+                            <td><a href="mailto:[email protected]" class="url-link">[email protected]</a></td>
+                        </tr>
+                        <tr>
+                            <td>Standing Order not showing</td>
+                            <td>Certificates → Create Standing Order → Search "Incentives" → Select "Solar Incentives NJ Program" → Check "Irrevocable"</td>
+                            <td><a href="mailto:[email protected]" class="url-link">[email protected]</a></td>
+                        </tr>
+                        <tr>
+                            <td>Payment account not approved</td>
+                            <td>Check Projects tab for "Need Info" status</td>
+                            <td><a href="mailto:[email protected]" class="url-link">[email protected]</a></td>
+                        </tr>
+                        <tr>
+                            <td>Meter reading rejected</td>
+                            <td>Verify entry is within 30-130% of estimates</td>
+                            <td><a href="mailto:[email protected]" class="url-link">[email protected]</a></td>
+                        </tr>
+                        <tr>
+                            <td>Certificate not minting</td>
+                            <td>Confirm reading submitted by 20th of month, verify reached 1,000 kWh threshold</td>
+                            <td><a href="mailto:[email protected]" class="url-link">[email protected]</a></td>
+                        </tr>
+                        <tr>
+                            <td>Payment not received</td>
+                            <td>Verify: 1) Standing order active 2) Payment account approved 3) Certificates minted and transferred</td>
+                            <td><a href="mailto:[email protected]" class="url-link">[email protected]</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching functionality
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'tracker') {
+                initializeProductionTable();
+            }
+        }
+        
+        // Progress tracking for checklist
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('#checklistTable input[type="checkbox"]');
+            const checked = document.querySelectorAll('#checklistTable input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '% Complete';
+            
+            saveChecklistProgress();
+        }
+        
+        // Save checklist progress to localStorage
+        function saveChecklistProgress() {
+            const checkboxes = document.querySelectorAll('#checklistTable input[type="checkbox"]');
+            const dates = document.querySelectorAll('#checklistTable input[type="date"]');
+            const texts = document.querySelectorAll('#checklistTable input[type="text"]');
+            
+            const data = {
+                checkboxes: Array.from(checkboxes).map(cb => cb.checked),
+                dates: Array.from(dates).map(d => d.value),
+                texts: Array.from(texts).map(t => t.value)
+            };
+            
+            localStorage.setItem('srec2_checklist', JSON.stringify(data));
+            alert('Checklist progress saved! ✓');
+        }
+        
+        // Load checklist progress from localStorage
+        function loadChecklistProgress() {
+            const data = JSON.parse(localStorage.getItem('srec2_checklist'));
+            if (!data) {
+                alert('No saved progress found.');
+                return;
+            }
+            
+            const checkboxes = document.querySelectorAll('#checklistTable input[type="checkbox"]');
+            const dates = document.querySelectorAll('#checklistTable input[type="date"]');
+            const texts = document.querySelectorAll('#checklistTable input[type="text"]');
+            
+            data.checkboxes.forEach((checked, i) => {
+                if (checkboxes[i]) checkboxes[i].checked = checked;
+            });
+            
+            data.dates.forEach((value, i) => {
+                if (dates[i]) dates[i].value = value;
+            });
+            
+            data.texts.forEach((value, i) => {
+                if (texts[i]) texts[i].value = value;
+            });
+            
+            updateProgress();
+            alert('Checklist progress loaded! ✓');
+        }
+        
+        // Reset checklist
+        function resetChecklist() {
+            if (!confirm('Are you sure you want to reset the entire checklist? This cannot be undone.')) {
+                return;
+            }
+            
+            document.querySelectorAll('#checklistTable input').forEach(input => {
+                if (input.type === 'checkbox') input.checked = false;
+                else input.value = '';
+            });
+            
+            updateProgress();
+            localStorage.removeItem('srec2_checklist');
+        }
+        
+        // Production tracker functionality
+        let trackerData = {};
+        let currentYear = 2026;
+        let carryoverKWh = 0;
+        
+        function initializeProductionTable() {
+            const year = parseInt(document.getElementById('yearSelect').value);
+            currentYear = year;
+            
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const tbody = document.getElementById('productionTableBody');
+            tbody.innerHTML = '';
+            
+            months.forEach((month, index) => {
+                const row = tbody.insertRow();
+                const key = `${year}-${index + 1}`;
+                const data = trackerData[key] || {};
+                
+                row.innerHTML = `
+                    <td>${month} ${year}</td>
+                    <td><input type="number" id="lifetime-${key}" value="${data.lifetime || ''}" onchange="calculateProduction('${key}')" placeholder="e.g., 12450"></td>
+                    <td><span class="calc-result" id="monthly-${key}">${data.monthly || '0'} kWh</span></td>
+                    <td><span class="calc-result" id="cumulative-${key}">${data.cumulative || '0'} kWh</span></td>
+                    <td><span class="calc-result" id="mwh-${key}">${data.mwh || '0'} MWh</span></td>
+                    <td><input type="date" id="submit-${key}" value="${data.submitDate || ''}"></td>
+                    <td><input type="text" id="serial-${key}" value="${data.serial || ''}" placeholder="NJ-XXXXX-1"></td>
+                    <td>
+                        <select id="status-${key}" onchange="saveTrackerData()">
+                            <option value="Pending" ${data.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Minted" ${data.status === 'Minted' ? 'selected' : ''}>Minted</option>
+                            <option value="Transferred" ${data.status === 'Transferred' ? 'selected' : ''}>Transferred</option>
+                            <option value="Paid" ${data.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                        </select>
+                    </td>
+                    <td><span class="calc-result" id="amount-${key}" style="color: #28a745; font-weight: 600;">$${data.amount || '0.00'}</span></td>
+                `;
+            });
+            
+            updateAnnualSummary();
+        }
+        
+        function calculateProduction(key) {
+            const lifetimeInput = document.getElementById(`lifetime-${key}`);
+            const lifetime = parseFloat(lifetimeInput.value) || 0;
+            
+            // Get previous month's lifetime reading
+            const [year, monthNum] = key.split('-').map(Number);
+            const prevMonthNum = monthNum === 1 ? 12 : monthNum - 1;
+            const prevYear = monthNum === 1 ? year - 1 : year;
+            const prevKey = `${prevYear}-${prevMonthNum}`;
+            const prevLifetime = parseFloat(document.getElementById(`lifetime-${prevKey}`)?.value) || 0;
+            
+            // Calculate monthly production
+            const monthly = monthNum === 1 && prevLifetime === 0 ? lifetime : lifetime - prevLifetime;
+            
+            // Get previous carryover
+            const prevData = trackerData[prevKey] || {};
+            const prevCarryover = prevData.carryover || 0;
+            
+            // Calculate cumulative
+            const cumulative = prevCarryover + monthly;
+            
+            // Calculate MWh minted (integer division)
+            const mwh = Math.floor(cumulative / 1000);
+            
+            // Calculate new carryover
+            const newCarryover = cumulative - (mwh * 1000);
+            
+            // Calculate payment amount
+            const amount = (mwh * 85).toFixed(2);
+            
+            // Update display
+            document.getElementById(`monthly-${key}`).textContent = `${monthly.toFixed(0)} kWh`;
+            document.getElementById(`cumulative-${key}`).textContent = `${cumulative.toFixed(0)} kWh`;
+            document.getElementById(`mwh-${key}`).textContent = `${mwh} MWh`;
+            document.getElementById(`amount-${key}`).textContent = `$${amount}`;
+            
+            // Save to data object
+            trackerData[key] = {
+                lifetime: lifetime,
+                monthly: monthly,
+                cumulative: cumulative,
+                mwh: mwh,
+                carryover: newCarryover,
+                amount: amount,
+                submitDate: document.getElementById(`submit-${key}`).value,
+                serial: document.getElementById(`serial-${key}`).value,
+                status: document.getElementById(`status-${key}`).value
+            };
+            
+            // Trigger recalculation of next month if it has data
+            const nextMonthNum = monthNum === 12 ? 1 : monthNum + 1;
+            const nextYear = monthNum === 12 ? year + 1 : year;
+            const nextKey = `${nextYear}-${nextMonthNum}`;
+            const nextLifetime = document.getElementById(`lifetime-${nextKey}`);
+            if (nextLifetime && nextLifetime.value) {
+                calculateProduction(nextKey);
+            }
+            
+            updateAnnualSummary();
+            saveTrackerData();
+        }
+        
+        function updateAnnualSummary() {
+            const year = currentYear;
+            let totalProduction = 0;
+            let totalMWh = 0;
+            let totalPayment = 0;
+            
+            for (let month = 1; month <= 12; month++) {
+                const key = `${year}-${month}`;
+                const data = trackerData[key] || {};
+                totalProduction += data.monthly || 0;
+                totalMWh += data.mwh || 0;
+                totalPayment += parseFloat(data.amount) || 0;
+            }
+            
+            document.getElementById('summaryYear').textContent = year;
+            document.getElementById('annualProduction').textContent = `${totalProduction.toFixed(0)} kWh`;
+            document.getElementById('annualMWh').textContent = `${totalMWh} MWh`;
+            document.getElementById('annualPayment').textContent = `$${totalPayment.toFixed(2)}`;
+        }
+        
+        function changeYear() {
+            initializeProductionTable();
+        }
+        
+        function saveTrackerData() {
+            localStorage.setItem('srec2_tracker', JSON.stringify(trackerData));
+        }
+        
+        function loadTrackerData() {
+            const saved = localStorage.getItem('srec2_tracker');
+            if (saved) {
+                trackerData = JSON.parse(saved);
+                initializeProductionTable();
+                alert('Tracker data loaded! ✓');
+            } else {
+                alert('No saved tracker data found.');
+            }
+        }
+        
+        function exportToCSV() {
+            let csv = 'Year,Month,Lifetime Reading (kWh),Monthly Production (kWh),Cumulative (kWh),MWh Minted,GATS Submission Date,Certificate Serial #,Payment Status,Amount\n';
+            
+            const years = [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            years.forEach(year => {
+                months.forEach((month, index) => {
+                    const key = `${year}-${index + 1}`;
+                    const data = trackerData[key] || {};
+                    csv += `${year},${month},${data.lifetime || ''},${data.monthly || ''},${data.cumulative || ''},${data.mwh || ''},${data.submitDate || ''},${data.serial || ''},${data.status || ''},${data.amount || ''}\n`;
+                });
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'SREC-II_Production_Tracker.csv';
+            a.click();
+        }
+        
+        // System info save/load
+        function saveSystemInfo() {
+            const info = {
+                njCert: document.getElementById('njCert').value,
+                gatsUnit: document.getElementById('gatsUnit').value,
+                systemSize: document.getElementById('systemSize').value,
+                onlineDate: document.getElementById('onlineDate').value,
+                inverterModel: document.getElementById('inverterModel').value,
+                monitorPlatform: document.getElementById('monitorPlatform').value
+            };
+            
+            localStorage.setItem('srec2_systeminfo', JSON.stringify(info));
+            
+            // Calculate end year
+            if (info.onlineDate) {
+                const startYear = new Date(info.onlineDate).getFullYear();
+                document.getElementById('endYear').textContent = startYear + 15;
+            }
+            
+            alert('System information saved! ✓');
+        }
+        
+        function loadSystemInfo() {
+            const saved = localStorage.getItem('srec2_systeminfo');
+            if (saved) {
+                const info = JSON.parse(saved);
+                document.getElementById('njCert').value = info.njCert || '';
+                document.getElementById('gatsUnit').value = info.gatsUnit || '';
+                document.getElementById('systemSize').value = info.systemSize || '';
+                document.getElementById('onlineDate').value = info.onlineDate || '';
+                document.getElementById('inverterModel').value = info.inverterModel || '';
+                document.getElementById('monitorPlatform').value = info.monitorPlatform || '';
+                
+                if (info.onlineDate) {
+                    const startYear = new Date(info.onlineDate).getFullYear();
+                    document.getElementById('endYear').textContent = startYear + 15;
+                }
+                
+                alert('System information loaded! ✓');
+            } else {
+                alert('No saved system information found.');
+            }
+        }
+        
+        // Auto-load saved data on page load
+        window.addEventListener('load', function() {
+            const savedChecklist = localStorage.getItem('srec2_checklist');
+            if (savedChecklist) {
+                loadChecklistProgress();
+            }
+            
+            const savedTracker = localStorage.getItem('srec2_tracker');
+            if (savedTracker) {
+                trackerData = JSON.parse(savedTracker);
+            }
+            
+            const savedInfo = localStorage.getItem('srec2_systeminfo');
+            if (savedInfo) {
+                loadSystemInfo();
+            }
+        });
+    </script>
+</body>
+</html>
+
